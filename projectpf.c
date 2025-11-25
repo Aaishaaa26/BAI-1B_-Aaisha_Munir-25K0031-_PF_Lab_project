@@ -260,6 +260,7 @@ void attendancePercentage() {
     printf("Attendance: %.2f%%\n", percent);
 }
 
+//leave
 void leaveRequests() {
 	int id, tempID;
 	int leaveDays;
@@ -303,7 +304,18 @@ void leaveRequests() {
 	fclose(fp);
 	printf("Leave Approved :)\n");
 } 
-
+void viewLeaves(){
+	int tempID, leaveDays;
+	FILE *fp = fopen(leave_f, "r");
+    if (!fp) {
+        printf("No Leave data.\n");
+        return;
+    }
+	while (fscanf(fp, "%d %d", &tempID, &leaveDays) == 2) {
+    	printf("\nID: %d\nLeave Days: %d\n",tempID, leaveDays);
+    }
+    fclose(fp);
+}
 //BACKUP & RECOVER EMPLOYEES FILE
 void backup() {
 	const char *employees = emp_f;
@@ -520,7 +532,7 @@ void candidatesApplication(){
     }
     printf("\n===Candidate Application===\n");
 
-    getchar(); 
+    getchar(); // to fix leftover newline
 
     printf("Enter Employee Name: ");
     fgets(e.name, sizeof(e.name), stdin);
@@ -882,17 +894,20 @@ void leave_menu() {
     do {
         printf("\n--->>Leave Menu<<---\n");
         printf("1. Apply Leave\n");
+        printf("2. View Leaves\n");
         printf("0. Back\n");
         printf("Enter choice: ");
         scanf("%d", &ch);
 
         switch (ch) {
             case 1:  leaveRequests();  break;
+            case 2: viewLeaves(); break;
             case 0: break;
             default: printf("Invalid!\n");
         }
     } while (ch != 0);
 }
+
 
 //Payroll Menu
 void PayMenu() {
