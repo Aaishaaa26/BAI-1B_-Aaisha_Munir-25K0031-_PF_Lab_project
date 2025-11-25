@@ -37,148 +37,6 @@ struct Training {
     char date[20];
     char status[20];
 };
-
-//Employee Menu
-void employee_menu() {
-    int ch;
-    do {
-        printf("\n--->>Employee Menu<<---\n");
-        printf("1. Add Employee\n");
-        printf("2. List Employees\n");
-        printf("3. Search Employee\n");
-        printf("4. Delete Employee\n");
-        printf("0. Back\n");
-        printf("Enter choice: ");
-        scanf("%d", &ch);
-
-        switch (ch) {
-            case 1: /* addemployee(); */ break;
-            case 2: /* listEmployees(); */ break;
-            case 3: /* searchEmployee(); */ break;
-            case 4: /* deleteEmployee(); */ break;
-            case 0: break;
-            default: printf("Invalid!\n");
-        }
-    } while (ch != 0);
-}
-
-//Attendance Menu
-void attendance_menu() {
-    int ch;
-    do {
-        printf("\n--->>Attendance Menu<<---\n");
-        printf("1. Mark Attendance\n");
-        printf("2. View Attendance\n");
-        printf("3. Attendance Percentage\n");
-        printf("0. Back\n");
-        printf("Enter choice: ");
-        scanf("%d", &ch);
-
-        switch (ch) {
-            case 1: /* addAttendance(); */ break;
-            case 2: /* viewAttendance(); */ break;
-            case 3: /* attendancePercentage(); */ break;
-            case 0: break;
-            default: printf("Invalid!\n");
-        }
-    } while (ch != 0);
-}
-
-//Leave Menu
-void leave_menu() {
-    int ch;
-    do {
-        printf("\n--->>Leave Menu<<---\n");
-        printf("1. Apply Leave\n");
-        printf("2. Approve Leave\n");
-        printf("3. View Leave Records\n");
-        printf("0. Back\n");
-        printf("Enter choice: ");
-        scanf("%d", &ch);
-
-        switch (ch) {
-            case 1: /* leaveRequests(); */ break;
-            case 2: /* approveLeave(); */ break;
-            case 3: /* viewLeaveRecords(); */ break;
-            case 0: break;
-            default: printf("Invalid!\n");
-        }
-    } while (ch != 0);
-}
-
-//Payroll Menu
-void payroll_menu() {
-    int ch;
-    do {
-        printf("\n--->>Payroll Menu<<---\n");
-        printf("1. Generate Payroll\n");
-        printf("2. View Payroll\n");
-        printf("0. Back\n");
-        scanf("%d", &ch);
-
-        switch (ch) {
-            case 1: /* calcPayroll(); */ break;
-            case 2: /* generatePayslip(); */ break;
-            case 0: break;
-            default: printf("Invalid!\n");
-        }
-    } while (ch != 0);
-}
-
-//Performance Menu
-void performance_menu() {
-    int ch;
-    do {
-        printf("\n--->>Performance Menu<<---\n");
-        printf("1. Add Performance Record\n");
-        printf("2. View Performance Report\n");
-        printf("0. Back\n");
-        scanf("%d", &ch);
-
-        switch (ch) {
-            case 1: /* addPerformance(); */ break;
-            case 2: /* performanceReport(); */ break;
-            case 0: break;
-            default: printf("Invalid!\n");
-        }
-    } while (ch != 0);
-}
-
-//Training Menu
-void training_menu() {
-    int ch;
-    do {
-        printf("\n--->>Training Menu<<---\n");
-        printf("1. Assign Training\n");
-        printf("2. View Training Records\n");
-        printf("0. Back\n");
-        printf("Enter choice: ");
-        scanf("%d", &ch);
-        getchar(); // flush newline
-
-        switch(ch) {
-            case 1: /* addTraining(); */ break;
-            case 2: /* viewTraining(); */ break;
-            case 0: break;
-            default: printf("Invalid Choice!\n");
-        }
-    } while (ch != 0);
-}
-
-//Backup & Recovery Menu 
-void backup_recovery_menu() {
-    int c2;
-    do {
-        printf("\n1. Backup\n2. Recovery\n0. Back\nChoice: ");
-        scanf("%d", &c2);
-        switch (c2) {
-            case 1: /* backup_menu(); */ break;
-            case 2: /* recover_menu(); */ break;
-            case 0: break;
-            default: printf("Invalid Choice!\n");
-        }
-    } while (c2 != 0);
-}
 // functions to avoid repetitive codes :p
 int getNextEmployeeID() {
     FILE *fp = fopen(emp_f, "r");
@@ -224,7 +82,7 @@ int login(char username[50],char pass[30]){
     return 1;
 }
 
-//ADD EMPLOYEE
+//ADD, DELETE,LIST EMPLOYEES
 void addemployee() {
     struct Employee e;
     FILE *fp = fopen(emp_f, "a");
@@ -257,7 +115,6 @@ void addemployee() {
     printf("ID: %d", e.id);
 }
 
-//DELETE EMPLOYEE 
 void deleteEmployee(){
     struct Employee temp;
     int id;
@@ -299,7 +156,6 @@ void deleteEmployee(){
     }
 }
 
-//LIST EMPLOYEES
 void listEmployees() {
     FILE *fp = fopen(emp_f, "r");
     struct Employee e;
@@ -319,7 +175,7 @@ void listEmployees() {
     fclose(fp);
 }
 
-//ADD ATTENDANCE
+//ATTENDANCE management
 void addAttendance() {
     int id;
     char status;
@@ -349,7 +205,6 @@ void addAttendance() {
     printf("Attendance Recorded!\n");
 }
 
-//VIEW ATTENDANCE
 void viewAttendance() {
     FILE *fp = fopen(attend_f, "r");
     int id;
@@ -369,7 +224,6 @@ void viewAttendance() {
     fclose(fp);
 }
 
-//ATTENDANCE PERCENTAGE
 void attendancePercentage() {
     int id;
     int total = 0, present = 0;
@@ -406,7 +260,6 @@ void attendancePercentage() {
     printf("Attendance: %.2f%%\n", percent);
 }
 
-//LEAVE MANAGEMENT
 void leaveRequests() {
 	int id, tempID;
 	int leaveDays;
@@ -416,12 +269,7 @@ void leaveRequests() {
     scanf("%d", &id);
 
     FILE *fp = fopen(leave_f, "r");
-    
-	if (!fp) {
-        printf("No leave data.\n");
-        return;
-    }
-    
+     
     while (fscanf(fp, "%d %d", &tempID, &leaveDays) == 2) {
     	if(id == tempID){
     	total = total + leaveDays;
@@ -456,7 +304,7 @@ void leaveRequests() {
 	printf("Leave Approved :)\n");
 } 
 
-//BACKUP
+//BACKUP & RECOVER EMPLOYEES FILE
 void backup() {
 	const char *employees = emp_f;
     const char *backup = backup_f;
@@ -485,7 +333,6 @@ void backup() {
     printf("Backup successful\n");
 }
 
-//RECOVER EMPLOYEES FILE
 void recover() {
     const char *employees = emp_f;
     const char *backup = backup_f;
@@ -516,6 +363,42 @@ void recover() {
     printf("Recovery successful\n");
 }
 
+// PERFORMANCE MANAGEMENT
+void addPerformance() {
+    struct Performance p;
+    FILE *fp = fopen(perform_f, "a");
+    if (!fp) { printf("Error opening performance file!\n"); return; }
+
+    printf("Enter Employee ID: ");
+    scanf("%d", &p.id);
+
+    if (idCheck(p.id)) { printf("Employee ID not found!\n"); fclose(fp); return; }
+
+    printf("Enter Performance Rating (1-10): ");
+    scanf("%d", &p.rating);
+    getchar();
+
+    printf("Enter Remarks: ");
+    fgets(p.remarks, sizeof(p.remarks), stdin);
+    p.remarks[strcspn(p.remarks, "\n")] = '\0';
+
+    fprintf(fp, "%d %d %s\n", p.id, p.rating, p.remarks);
+    fclose(fp);
+    printf("Performance Recorded!\n");
+}
+
+void performanceReport() {
+    FILE *fp = fopen(perform_f, "r");
+    if (!fp) { printf("No performance records.\n"); return; }
+
+    struct Performance p;
+    printf("\n====== PERFORMANCE REPORT ======\n");
+    while (fscanf(fp, "%d %d %199[^\n]", &p.id, &p.rating, p.remarks) == 3) {
+        printf("ID: %d | Rating: %d | Remarks: %s\n", p.id, p.rating, p.remarks);
+    }
+    fclose(fp);
+}
+
 //payroll management
 int calcPayroll(){
 
@@ -532,9 +415,9 @@ int calcPayroll(){
     bool found = false;
 
     struct Employee e;    
-    while (fscanf(fp, "%d %99[^\t\n] %f %19s", &e.id, e.name, &e.salary, e.contact) == 4) { // FIXED
+    while (fscanf(fp, "%d %s %f %19s", &e.id, e.name, &e.salary, e.contact) == 4) {
         if(e.id == id){
-            found = true; // FIXED
+            found = true; 
             break;
         }
     }
@@ -548,7 +431,7 @@ int calcPayroll(){
     basic = e.salary;
     printf("\nEnter Amount of Deduction:");
     scanf("%f",&deductions);
-    if(deductions < 0 || deductions > basic){
+    if(deductions < 0.0 || deductions > basic){
         printf("invalid amount of deductions!\n");
         return 0;
     }
@@ -623,29 +506,6 @@ void payrollReport() {
     fclose(pf);
 }
 
-//Payroll Menu
-void PayMenu() {
-    int choice;
-    do {
-        printf("\n=====>>>>PAYROLL MENU<<<<=====\n");
-        printf("1. Calculate Payroll\n");
-        printf("2. Generate Payslip\n");
-        printf("3. Payroll Report\n");
-        printf("0. Back\n");
-        printf("Enter choice: ");
-        scanf("%d", &choice);
-
-        switch(choice) {
-            case 1: calcPayroll(); break; // FIXED
-            case 2: generatePayslip(); break;
-            case 3: payrollReport(); break;
-            case 0: break;
-            default: printf("Invalid Option!\n");
-        }
-
-    } while(choice != 0);
-}
-
 //Recruitment Management
 void candidatesApplication(){
     struct Employee e;
@@ -660,7 +520,7 @@ void candidatesApplication(){
     }
     printf("\n===Candidate Application===\n");
 
-    getchar(); // to fix leftover newline
+    getchar(); 
 
     printf("Enter Employee Name: ");
     fgets(e.name, sizeof(e.name), stdin);
@@ -891,10 +751,16 @@ void updateTrainingStatus() {
     char inputStatus;
     char course[100], date[20], status[20];
     int tempID;
+    char tempDate[20]; 
 
     printf("Enter Employee ID: ");
     scanf("%d", &id);
     getchar();
+    
+    printf("Enter Date: ");
+    scanf("%s", tempDate);
+    getchar();
+    tempDate[strcspn(tempDate, "\n")] = '\0';
 
     FILE *fp = fopen(train_f, "r");
     if (!fp) {
@@ -911,6 +777,7 @@ void updateTrainingStatus() {
 
     printf("Enter new status (c: Completed /o: Ongoing /p: Pending): ");
     scanf("%c", &inputStatus);
+    getchar();
     inputStatus = tolower(inputStatus);
     if(inputStatus == 'c'){
     	strcpy(newStatus ,"Completed");
@@ -922,10 +789,16 @@ void updateTrainingStatus() {
     	strcpy(newStatus ,"Pending");
 	}
 
-    while (fscanf(fp, "%d | %99[^|] | %19[^|] | %19[^\n]",
-                  &tempID, course, date, status) == 4) {
-
-        if (tempID == id) {
+    while (fscanf(fp, "%d | %99[^|] | %19[^|] | %19[^\n]",&tempID, course, date, status) == 4) {
+        while (isspace((unsigned char)date[0])) {
+            memmove(date, date + 1, strlen(date)); //this logic moves one postion ahead in date if there is whitespace
+        }
+        char *end = date + strlen(date) - 1;
+        while (end > date && isspace((unsigned char)*end)) {
+            *end = '\0'; //this logic is used to remove whitespaces in the end of date
+            end--;
+        }
+        if (tempID == id && strcmp(tempDate, date) == 0) {
             strcpy(status, newStatus);
         }
 
@@ -959,6 +832,151 @@ void trainingReport() {
     fclose(fp);
 }
 
+//Employee Menu
+void employee_menu() {
+    int ch;
+    do {
+        printf("\n--->>Employee Menu<<---\n");
+        printf("1. Add Employee\n");
+        printf("2. List Employees\n");
+        printf("3. Delete Employee\n");
+        printf("0. Back\n");
+        printf("Enter choice: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1:  addemployee();  break;
+            case 2:  listEmployees();  break;
+            case 3:  deleteEmployee();  break;
+            case 0: break;
+            default: printf("Invalid!\n");
+        }
+    } while (ch != 0);
+}
+
+//Attendance Menu
+void attendance_menu() {
+    int ch;
+    do {
+        printf("\n--->>Attendance Menu<<---\n");
+        printf("1. Mark Attendance\n");
+        printf("2. View Attendance\n");
+        printf("3. Attendance Percentage\n");
+        printf("0. Back\n");
+        printf("Enter choice: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1: addAttendance(); break;
+            case 2:  viewAttendance();  break;
+            case 3:  attendancePercentage(); break;
+            case 0: break;
+            default: printf("Invalid!\n");
+        }
+    } while (ch != 0);
+}
+
+//Leave Menu
+void leave_menu() {
+    int ch;
+    do {
+        printf("\n--->>Leave Menu<<---\n");
+        printf("1. Apply Leave\n");
+        printf("0. Back\n");
+        printf("Enter choice: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1:  leaveRequests();  break;
+            case 0: break;
+            default: printf("Invalid!\n");
+        }
+    } while (ch != 0);
+}
+
+//Payroll Menu
+void PayMenu() {
+    int choice;
+    do {
+        printf("\n=====>>>>PAYROLL MENU<<<<=====\n");
+        printf("1. Calculate Payroll\n");
+        printf("2. Generate Payslip\n");
+        printf("3. Payroll Report\n");
+        printf("0. Back\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1: calcPayroll(); break; // FIXED
+            case 2: generatePayslip(); break;
+            case 3: payrollReport(); break;
+            case 0: break;
+            default: printf("Invalid Option!\n");
+        }
+
+    } while(choice != 0);
+}
+
+
+//Performance Menu
+void performance_menu() {
+    int ch;
+    do {
+        printf("\n--->>Performance Menu<<---\n");
+        printf("1. Add Performance Record\n");
+        printf("2. View Performance Report\n");
+        printf("0. Back\n");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1:  addPerformance();  break;
+            case 2:  performanceReport();  break;
+            case 0: break;
+            default: printf("Invalid!\n");
+        }
+    } while (ch != 0);
+}
+
+//Training Menu
+void training_menu() {
+    int ch;
+    do {
+        printf("\n--->>Training Menu<<---\n");
+        printf("1. Assign Training\n");
+        printf("2. View Training Records\n");
+        printf("3. Update Training Status\n");
+        printf("4. Generate Training Report\n");
+        printf("0. Back\n");
+        printf("Enter choice: ");
+        scanf("%d", &ch);
+        getchar(); 
+
+        switch(ch) {
+            case 1: addTraining();  break;
+            case 2:  viewTraining();  break;
+            case 3: updateTrainingStatus(); break;
+            case 4: trainingReport(); break;
+            case 0: break;
+            default: printf("Invalid Choice!\n");
+        }
+    } while (ch != 0);
+}
+
+//Backup & Recovery Menu 
+void backup_recovery_menu() {
+    int c2;
+    do {
+        printf("\n1. Backup\n2. Recovery\n0. Back\nChoice: ");
+        scanf("%d", &c2);
+        switch (c2) {
+            case 1: backup();  break;
+            case 2:  recover();  break;
+            case 0: break;
+            default: printf("Invalid Choice!\n");
+        }
+    } while (c2 != 0);
+}
+
 //MENU
 void menu(){
      int choice;
@@ -987,7 +1005,7 @@ void menu(){
             case 1: employee_menu(); break;
             case 2: attendance_menu(); break;
             case 3: leave_menu(); break;
-            case 4: payroll_menu(); break;
+            case 4: PayMenu(); break;
             case 5: performance_menu(); break;
             case 6:training_menu(); break;
             case 7: backup_recovery_menu(); break;
