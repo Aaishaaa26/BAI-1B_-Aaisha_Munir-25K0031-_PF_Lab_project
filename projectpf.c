@@ -85,6 +85,9 @@ int login(char username[50],char pass[30]){
 //ADD, DELETE,LIST EMPLOYEES
 void addemployee() {
     struct Employee e;
+    char option; 
+    bool valid;
+    int len;
     FILE *fp = fopen(emp_f, "a");
 
     if (!fp) {
@@ -93,20 +96,44 @@ void addemployee() {
     }
     e.id = getNextEmployeeID();
     fflush(stdin);
-    
+    do{
+
     printf("Enter Employee Name: ");
     fgets(e.name, sizeof(e.name), stdin);
     e.name[strcspn(e.name, "\n")] = '\0';
-
+    printf("Employee Name: %s.\n (Y\\N):", e.name);
+	scanf("%c", &option);
+	getchar();
+	option = tolower(option);
+	}while(option != 'y');
+	
+	do{
     printf("Enter Salary: ");
     scanf("%f", &e.salary);
     getchar();
-
+   	printf("Employee salary: %.2f .\n (Y\\N):", e.salary);
+	scanf("%c", &option);
+	getchar();
+	option = tolower(option);
+	}while(option != 'y');
+	
     printf("Enter Contact Number: ");
+    do{
+    valid = true;
     fgets(e.contact, sizeof(e.contact), stdin);
     e.contact[strcspn(e.contact, "\n")] = '\0';
-    
-  
+    len = strlen(e.contact);
+    if (len < 10 || len > 15) {
+            printf("Invalid input. Contact number must be between 10 and 15 digits.\n");
+            valid = false;
+    }
+    for (int i = 0; i < len; i++) {
+            if (!isdigit(e.contact[i])) {
+                printf("Invalid input. Contact number contain  digits.\n");
+                valid = false;
+        }
+    }
+   }while(valid == false);
 
     fprintf(fp, "%d %s %.2f %s\n", e.id, e.name, e.salary, e.contact);
 
@@ -316,6 +343,7 @@ void viewLeaves(){
     }
     fclose(fp);
 }
+
 //BACKUP & RECOVER EMPLOYEES FILE
 void backup() {
 	const char *employees = emp_f;
@@ -769,7 +797,7 @@ void updateTrainingStatus() {
     scanf("%d", &id);
     getchar();
     
-    printf("Enter Date: ");
+    printf("Enter Date(YYYY-MM-DD): ");
     scanf("%s", tempDate);
     getchar();
     tempDate[strcspn(tempDate, "\n")] = '\0';
@@ -843,7 +871,7 @@ void trainingReport() {
     }
     fclose(fp);
 }
-
+//Menus sabke aleda aleda banai hai takay clean lagay
 //Employee Menu
 void employee_menu() {
     int ch;
@@ -908,7 +936,6 @@ void leave_menu() {
     } while (ch != 0);
 }
 
-
 //Payroll Menu
 void PayMenu() {
     int choice;
@@ -931,7 +958,6 @@ void PayMenu() {
 
     } while(choice != 0);
 }
-
 
 //Performance Menu
 void performance_menu() {
