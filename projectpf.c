@@ -87,7 +87,7 @@ void addemployee() {
     struct Employee e;
     char option; 
     bool valid;
-    int len;
+
     FILE *fp = fopen(emp_f, "a");
 
     if (!fp) {
@@ -122,7 +122,7 @@ void addemployee() {
     valid = true;
     fgets(e.contact, sizeof(e.contact), stdin);
     e.contact[strcspn(e.contact, "\n")] = '\0';
-    len = strlen(e.contact);
+    int len = strlen(e.contact);
     if (len < 10 || len > 15) {
             printf("Invalid input. Contact number must be between 10 and 15 digits.\n");
             valid = false;
@@ -551,7 +551,9 @@ void candidatesApplication(){
     struct Employee e;
     struct Employee temp;
     char tempStatus, status = 'p';
+    char option;
     int count = 0;
+    bool valid = true;
     FILE *fp = fopen(job_f, "a+");
 
     if (!fp) {
@@ -561,15 +563,34 @@ void candidatesApplication(){
     printf("\n===Candidate Application===\n");
 
     getchar(); // to fix leftover newline
-
+    do{
     printf("Enter Employee Name: ");
     fgets(e.name, sizeof(e.name), stdin);
     e.name[strcspn(e.name, "\n")] = '\0';
+    printf("Employee Name: %s.\n (Y\\N):", e.name);
+	scanf("%c", &option);
+	getchar();
+	option = tolower(option);
+	}while(option != 'y');
 
 
     printf("Enter Contact Number: ");
+    do{
+    valid = true;
     fgets(e.contact, sizeof(e.contact), stdin);
-    e.contact[strcspn(e.contact, "\n")] = '\0';  
+    e.contact[strcspn(e.contact, "\n")] = '\0';
+    int len = strlen(e.contact);
+    if (len < 10 || len > 15) {
+            printf("Invalid input. Contact number must be between 10 and 15 digits.\n");
+            valid = false;
+    }
+    for (int i = 0; i < len; i++) {
+            if (!isdigit(e.contact[i])) {
+                printf("Invalid input. Contact number contain  digits.\n");
+                valid = false;
+        }
+    }
+   }while(valid == false); 
          
     rewind(fp);
     
@@ -683,6 +704,7 @@ void confirmApplicant(){
 	char tempStatus;
 	int id;
 	bool found = false;
+	char option;
 	
 	printf("Enter ID to confirm applicants job: ");
 	scanf("%d", &id);
@@ -728,8 +750,15 @@ void confirmApplicant(){
         return;
     }
     
+    do{
     printf("Enter Salary: ");
     scanf("%f", &e.salary);
+    getchar();
+   	printf("Employee salary: %.2f .\n (Y\\N):", e.salary);
+	scanf("%c", &option);
+	getchar();
+	option = tolower(option);
+	}while(option != 'y');
 	fprintf(fp, "%d %s %.2f %s\n", e.id, e.name, e.salary, e.contact);  
 	fclose(fp);
 }
@@ -959,6 +988,30 @@ void PayMenu() {
     } while(choice != 0);
 }
 
+//recruitment menu
+void recruitment_menu(){
+    int ch;
+        do {
+        printf("\n--->>Performance Menu<<---\n");
+        printf("1. Add Candidate Application\n");
+        printf("2. Schedule Interview\n");
+        printf("3. View Application\n");
+        printf("4. Confirm Applicants Status\n");
+        printf("0. Back\n");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1:  candidatesApplication();  break;
+            case 2:  interviewScheduling();  break;
+            case 3:  viewApplications();  break;
+            case 4:  confirmApplicant();  break;
+            case 0: break;
+            default: printf("Invalid!\n");
+        }
+    } while (ch != 0);
+}
+
+
 //Performance Menu
 void performance_menu() {
     int ch;
@@ -1035,10 +1088,11 @@ void menu(){
         printf("2. Attendance Management\n");
         printf("3. Leave Management\n");
         printf("4. Payroll Management\n");
-        printf("5. Performance Management\n");
-        printf("6. Training Management\n");
-        printf("7. Backup & Recovery\n");
-        printf("0. Exit\n");
+         printf("5. Recruitment Management\n");
+        printf("6. Performance Management\n");
+        printf("7. Training Management\n");
+        printf("8. Backup & Recovery\n");
+        printf("9. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
 
@@ -1047,9 +1101,10 @@ void menu(){
             case 2: attendance_menu(); break;
             case 3: leave_menu(); break;
             case 4: PayMenu(); break;
-            case 5: performance_menu(); break;
-            case 6:training_menu(); break;
-            case 7: backup_recovery_menu(); break;
+            case 5: recruitment_menu(); break;
+            case 6: performance_menu(); break;
+            case 7:training_menu(); break;
+            case 8: backup_recovery_menu(); break;
             case 0: printf("Exiting...\n"); break;
             default: printf("Invalid Choice!\n");
         }
