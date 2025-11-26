@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
@@ -36,6 +35,7 @@ struct Training {
     char date[20];
     char status[20];
 };
+
 // functions to avoid repetitive codes :p
 int getNextEmployeeID() {
     FILE *fp = fopen(emp_f, "r");
@@ -73,7 +73,7 @@ int idCheck(int tempId){
 //LOGIN
 int login(char username[50],char pass[30]){
 
-    if(strcmp(username,"messi") == 0 && strcmp(pass,"10") == 0){
+    if(strcmp(username,"missIzzah") == 0 && strcmp(pass,"best") == 0){
         printf("Log-In successful!\n");
         return 0;
     }
@@ -193,11 +193,9 @@ void listEmployees() {
 
     printf("\n=====>EMPLOYEES<=====\n");
 
-    while (fscanf(fp, "%d %s %f %19s", &e.id, e.name, &e.salary, e.contact) == 4) {
-        printf("ID: %d\nName: %s\nSalary: %.2f\nContact: %s\n\n",
-               e.id, e.name, e.salary, e.contact);
+    while (fscanf(fp, "%d %99s %f %19s", &e.id, e.name, &e.salary, e.contact) == 4) {
+        printf("ID: %d\nName: %s\nSalary: %.2f\nContact: %s\n\n", e.id, e.name, e.salary, e.contact);
     }
-
     fclose(fp);
 }
 
@@ -213,11 +211,11 @@ void addAttendance() {
         printf("Error opening attendance file!\n");
         return;
     }
-
+    
     printf("Enter Employee ID: ");
     scanf("%d", &id);
     getchar();
-
+	if (idCheck(id)) { printf("Employee ID not found!\n"); fclose(fp); return; }
     printf("Enter Date (YYYY-MM-DD): ");
     fgets(date, sizeof(date), stdin);
     date[strcspn(date, "\n")] = '\0';
@@ -331,6 +329,7 @@ void leaveRequests() {
 	fclose(fp);
 	printf("Leave Approved :)\n");
 } 
+
 void viewLeaves(){
 	int tempID, leaveDays;
 	FILE *fp = fopen(leave_f, "r");
@@ -900,6 +899,7 @@ void trainingReport() {
     }
     fclose(fp);
 }
+
 //Menus sabke aleda aleda banai hai takay clean lagay
 //Employee Menu
 void employee_menu() {
@@ -992,7 +992,7 @@ void PayMenu() {
 void recruitment_menu(){
     int ch;
         do {
-        printf("\n--->>Performance Menu<<---\n");
+        printf("\n--->>Recruitment Menu<<---\n");
         printf("1. Add Candidate Application\n");
         printf("2. Schedule Interview\n");
         printf("3. View Application\n");
@@ -1010,7 +1010,6 @@ void recruitment_menu(){
         }
     } while (ch != 0);
 }
-
 
 //Performance Menu
 void performance_menu() {
@@ -1075,13 +1074,16 @@ void backup_recovery_menu() {
 void menu(){
      int choice;
     char username[50], pass[30];
-
+    int loginCheck;
+	do{
+	
     printf("Enter Username: ");
     scanf("%s", username);
     printf("Enter Password: ");
     scanf("%s", pass);
+    
+	}while(login(username, pass) != 0);
 
-    if (login(username, pass) != 0) return;
     do {
         printf("\n--->>HR MANAGEMENT SYSTEM<<---\n");
         printf("1. Employee Management\n");
@@ -1092,7 +1094,7 @@ void menu(){
         printf("6. Performance Management\n");
         printf("7. Training Management\n");
         printf("8. Backup & Recovery\n");
-        printf("9. Exit\n");
+        printf("0. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
 
