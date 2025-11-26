@@ -22,7 +22,6 @@ struct Employee
     float salary;
     char contact[20];
 };
-
 // THIS IS STRUCT FOR PERFORMANCE
 // Performance Structure
 struct Performance {
@@ -271,6 +270,7 @@ void attendancePercentage() {
     while (fscanf(fp, "%d %s %c", &tempID, date, &status) == 3) {
         if (tempID == id) {
             total++;
+            status = toupper(status);
             if (status == 'P')
                 present++;
         }
